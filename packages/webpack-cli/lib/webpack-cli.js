@@ -15,6 +15,8 @@ const resolveOutput = require('./groups/resolveOutput');
 const basicResolver = require('./groups/basicResolver');
 const resolveAdvanced = require('./groups/resolveAdvanced');
 
+const { run } = require('./metrics')
+
 class WebpackCLI extends GroupHelper {
     constructor() {
         super();
@@ -216,6 +218,7 @@ class WebpackCLI extends GroupHelper {
     }
 
     async run(args, cliOptions) {
+        run.record();
         await this.processArgs(args, cliOptions);
         await this.compilation.createCompiler(this.compilerConfiguration);
         const webpack = await this.compilation.webpackInstance({
